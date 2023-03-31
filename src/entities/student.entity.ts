@@ -10,11 +10,12 @@ export class StudentEntity extends BaseEntity {
     userName: string;
 
     @Column()
-    companyName: string;
-
-    @Column()
     myNumber: string;
-
+    
     @Column()
     parentNumber: string;
+    
+    // Make one to many
+    @Column()
+    companyName: string;
 }
