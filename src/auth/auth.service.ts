@@ -3,22 +3,23 @@ import { UserRepository } from './repository/user.repository';
 import { AuthCreadentialDto } from './dto/auth.credential.dto';
 import { UserCredentialDto } from './dto/user.credential.dto';
 import * as bcrypt from 'bcryptjs';
-import { InjectRepository } from '@nestjs/typeorm';
-import { createStudentEntity } from 'src/entities/createStudent.entity';
-import { Repository } from 'typeorm';
-import { StudentEntity } from 'src/entities/student.entity';
-import { CreateStudentRepository } from './repository/createStudent.repository';
+import { DataSource, Entity, Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
     constructor(
+        private dataSource: DataSource,
         private userRepository: UserRepository,
-        private createStudentRepository: CreateStudentRepository
     ) { }
 
     async signUp(authCredentialDto: AuthCreadentialDto): Promise<void> {
-        await this.userRepository.createUser(authCredentialDto);
-        await this.createStudentRepository.createNewEntity(authCredentialDto);
+        try{
+            await this.userRepository.createUser(authCredentialDto);
+            await this.create(authCredentialDto.companyName);
+        }catch(error){
+
+        }
+        // await this.createStudentRepository.createNewEntity(authCredentialDto);
     }
 
     async signIn(userCredentialDto: UserCredentialDto): Promise<string> {
@@ -31,5 +32,13 @@ export class AuthService {
         }else{
             throw new UnauthorizedException();
         }
+    }
+
+    async create(dynamicTableName) {
+        // const entity = this.dataSource.createEntityManager().create(StudentEntity);
+        // const repo = await this.getRepository(StudentEntity);
+        // repo.metadata.tableName = dynamicTableName;
+        this.dataSource.manager.query(`CREATE TABLE ${dynamicTableName} (id SERIAL PRIMARY KEY,userName VARCHAR(20) UNIQUE NOT NULL,companyName VARCHAR(20) NOT NULL,myNumber VARCHAR(20) UNIQUE NOT NULL,parentNumber VARCHAR(20) NOT NULL)`)
+        
     }
 }
