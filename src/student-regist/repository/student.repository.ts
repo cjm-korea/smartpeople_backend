@@ -4,7 +4,7 @@ import { DataSource, Repository } from "typeorm";
 import { StudentDto } from "../dto/student.dto";
 
 @Injectable()
-export class Student extends Repository<StudentEntity> {
+export class StudentRepository extends Repository<StudentEntity> {
     private logger = new Logger();
     constructor(private dataSource: DataSource) {
         super(StudentEntity, dataSource.createEntityManager());
@@ -19,7 +19,7 @@ export class Student extends Repository<StudentEntity> {
         return found;
     }
 
-    async createStudnet(studentDto: StudentDto): Promise<void> {
+    async createStudent(studentDto: StudentDto): Promise<void> {
         const { userName, myNumber, parentNumber, companyName } = studentDto;
         const newStudent = this.create({ userName, myNumber, parentNumber, companyName });
         this.logger.debug(`New ${userName} is registed to ${myNumber} with ${parentNumber}`);
