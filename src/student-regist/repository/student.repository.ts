@@ -22,12 +22,18 @@ export class StudentRepository extends Repository<StudentEntity> {
     async createStudent(studentDto: StudentDto): Promise<void> {
         const { userName, myNumber, parentNumber, companyName } = studentDto;
         const newStudent = this.create({ userName, myNumber, parentNumber, companyName });
+        const tree = this.dataSource.getTreeRepository(StudentDto);
+        const studentRegist = this.dataSource.getRepository(companyName);
         this.logger.debug(`New ${userName} is registed to ${myNumber} with ${parentNumber}`);
 
+        // Make dynamic schema name
+
         try {
-            this.save(newStudent);
+            studentRegist.save(newStudent)
+            // this.save(newStudent);
         } catch (error) {
-            console.log(error.code);
+            console.log(tree);
+            console.log(error);
         }
     };
 

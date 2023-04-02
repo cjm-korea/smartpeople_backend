@@ -19,10 +19,10 @@ export class AuthService {
         }catch(error){
 
         }
-        // await this.createStudentRepository.createNewEntity(authCredentialDto);
     }
 
     async signIn(userCredentialDto: UserCredentialDto): Promise<string> {
+        // Make sign and match with company name and Make companyName to Unique parameter
         const { userName, password } = userCredentialDto;
         const user = await this.userRepository.findOne({ where: { userName: userName } });
 
@@ -35,9 +35,6 @@ export class AuthService {
     }
 
     async create(dynamicTableName) {
-        // const entity = this.dataSource.createEntityManager().create(StudentEntity);
-        // const repo = await this.getRepository(StudentEntity);
-        // repo.metadata.tableName = dynamicTableName;
         this.dataSource.manager.query(`CREATE TABLE ${dynamicTableName} (id SERIAL PRIMARY KEY,userName VARCHAR(20) UNIQUE NOT NULL,companyName VARCHAR(20) NOT NULL,myNumber VARCHAR(20) UNIQUE NOT NULL,parentNumber VARCHAR(20) NOT NULL)`)
         
     }

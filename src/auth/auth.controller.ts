@@ -9,6 +9,7 @@ export class AuthController {
 
     @Post('/signUp')
     signUp(@Body(ValidationPipe) authCredentialDto: AuthCreadentialDto): Promise<void> {
+        // Make alert error message to confilct user
         return this.authService.signUp(authCredentialDto);
     }
 
