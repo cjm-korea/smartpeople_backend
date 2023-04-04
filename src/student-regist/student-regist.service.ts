@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { StudentRepository } from './repository/student.repository';
 import { StudentDto } from './dto/student.dto';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class StudentRegistService {
@@ -12,8 +13,8 @@ export class StudentRegistService {
         return this.studentRepository.getStudentByuserName(userName);
     }
 
-    async createStudent(studentDto: StudentDto): Promise<void> {
-        return this.studentRepository.createStudent(studentDto);
+    async createStudent(studentDto: StudentDto, user: User): Promise<void> {
+        return this.studentRepository.createStudent(studentDto, user);
     }
 
     async getAllStudents(): Promise<StudentDto[]> {

@@ -1,7 +1,8 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Student } from "./student.entity";
 
 @Entity('User')
-@Unique(['companyName'])
+// @Unique(['companyName'])
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -20,4 +21,7 @@ export class User extends BaseEntity {
 
     @Column()
     companyAddress: string;
+
+    @OneToMany(type => Student, student => student.user, { eager: true })
+    students: Student[];
 }

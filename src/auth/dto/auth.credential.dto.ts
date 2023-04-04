@@ -1,4 +1,5 @@
 import { IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { Student } from "src/entities/student.entity";
 
 export class AuthCreadentialDto {
     @IsString()
@@ -26,4 +27,6 @@ export class AuthCreadentialDto {
     @IsString()
     @MinLength(5)
     companyAddress: string;
+
+    students: Student[];
 }

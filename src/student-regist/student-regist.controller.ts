@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { StudentRegistService } from './student-regist.service';
 import { StudentDto } from './dto/student.dto';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/entities/user.entity';
 
 @Controller('student')
 export class StudentRegistController {
@@ -12,8 +14,11 @@ export class StudentRegistController {
     }
 
     @Post('/regist')
-    createStudentByUserName(@Body() studentDto: StudentDto): Promise<void> {
-        return this.studentRegistService.createStudent(studentDto);
+    createStudentByUserName(
+        @Body() studentDto: StudentDto,
+        @GetUser() user: User
+    ): Promise<void> {
+        return this.studentRegistService.createStudent(studentDto, user);
     }
 
     @Get()

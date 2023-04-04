@@ -1,8 +1,9 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { User } from "./user.entity";
 
 @Entity()
 @Unique(['myNumber'])
-export class StudentEntity extends BaseEntity {
+export class Student extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -10,12 +11,14 @@ export class StudentEntity extends BaseEntity {
     userName: string;
 
     @Column()
+    companyName: string;
+
+    @Column()
     myNumber: string;
-    
+
     @Column()
     parentNumber: string;
-    
-    // Make one to many
-    @Column()
-    companyName: string;
+
+    @ManyToOne(type => User, user => user.students, { eager: false })
+    user: User;
 }
