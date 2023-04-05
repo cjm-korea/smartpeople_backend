@@ -4,7 +4,6 @@ import { StudentDto } from './dto/student.dto';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { Student } from 'src/entities/student.entity';
 
 @Controller('student')
 @UseGuards(AuthGuard())
@@ -12,18 +11,17 @@ export class StudentRegistController {
     constructor(private studentRegistService: StudentRegistService) { }
 
     // Testing APIs need
-    
+
     @Get('/:userName')
     getStudentByUserName(@Param('userName') userName: string): Promise<StudentDto> {
         return this.studentRegistService.getStudentByUserName(userName);
     }
 
     @Post('/regist')
-    createStudentByUserName(
+    createStudent(
         @Body() studentDto: StudentDto,
         @GetUser() user: User
-    ): Promise<Student> {
-        console.log(user);
+    ): Promise<string> {
         return this.studentRegistService.createStudent(studentDto, user);
     }
 
@@ -33,7 +31,10 @@ export class StudentRegistController {
     }
 
     @Patch()
-    updateStudent(@Body() userName: string, parentNumber: string): Promise<StudentDto> {
+    updateStudent(
+        @Body() userName: string,
+        parentNumber: string
+    ): Promise<StudentDto> {
         return this.studentRegistService.updateStudent(userName, parentNumber);
     }
 

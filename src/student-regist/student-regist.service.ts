@@ -14,11 +14,11 @@ export class StudentRegistService {
         return this.studentRepository.getStudentByuserName(userName);
     }
 
-    async createStudent(studentDto: StudentDto, user: User): Promise<Student> {
+    async createStudent(studentDto: StudentDto, user: User): Promise<string> {
         return this.studentRepository.createStudent(studentDto, user);
     }
 
-    async getAllStudents(): Promise<StudentDto[]> {
+    async getAllStudents(): Promise<Student[]> {
         return this.studentRepository.getAllStudents();
     }
 

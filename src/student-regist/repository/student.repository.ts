@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 import { Student } from "src/entities/student.entity";
 import { DataSource, Repository } from "typeorm";
 import { StudentDto } from "../dto/student.dto";
@@ -20,24 +20,23 @@ export class StudentRepository extends Repository<Student> {
         return found;
     }
 
-    async createStudent(studentDto: StudentDto, user: User): Promise<Student> {
+    async createStudent(studentDto: StudentDto, user: User): Promise<string> {
         const { userName, myNumber, parentNumber} = studentDto;
         const newStudent = this.create({ userName, myNumber, parentNumber, user });
         this.logger.debug(`New ${userName} is registed to ${myNumber} with ${parentNumber}`);
 
         try {
             await this.save(newStudent);
+            return 'Student registed!';
         } catch (error) {
             console.log(error);
+            throw new InternalServerErrorException;
         }
-
-        return newStudent;
     };
 
-    async getAllStudents(): Promise<StudentDto[]> {
-        const allStudents = this.find()
+    async getAllStudents(): Promise<Student[]> {
+        const allStudents = await this.find()
         // Check dataset
-        console.log(allStudents);
         return allStudents;
     };
 
