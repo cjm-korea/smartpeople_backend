@@ -20,16 +20,18 @@ export class StudentRepository extends Repository<Student> {
         return found;
     }
 
-    async createStudent(studentDto: StudentDto, user: User): Promise<void> {
-        const { userName, myNumber, parentNumber, companyName} = studentDto;
-        const newStudent = this.create({ userName, myNumber, parentNumber, companyName, user });
+    async createStudent(studentDto: StudentDto, user: User): Promise<Student> {
+        const { userName, myNumber, parentNumber} = studentDto;
+        const newStudent = this.create({ userName, myNumber, parentNumber, user });
         this.logger.debug(`New ${userName} is registed to ${myNumber} with ${parentNumber}`);
 
         try {
-            this.save(newStudent);
+            await this.save(newStudent);
         } catch (error) {
             console.log(error);
         }
+
+        return newStudent;
     };
 
     async getAllStudents(): Promise<StudentDto[]> {

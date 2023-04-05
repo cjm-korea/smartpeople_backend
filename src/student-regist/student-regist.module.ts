@@ -4,12 +4,16 @@ import { StudentRegistController } from './student-regist.controller';
 import { StudentRepository } from './repository/student.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Student } from 'src/entities/student.entity';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Student])
+        TypeOrmModule.forFeature([Student]),
+        PassportModule.register({
+            defaultStrategy: 'jwt'
+        }),
     ],
-    exports: [TypeOrmModule],
+    exports: [TypeOrmModule, PassportModule],
     providers: [StudentRegistService, StudentRepository],
     controllers: [StudentRegistController]
 })

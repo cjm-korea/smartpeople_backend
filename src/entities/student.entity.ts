@@ -11,9 +11,6 @@ export class Student extends BaseEntity {
     userName: string;
 
     @Column()
-    companyName: string;
-
-    @Column()
     myNumber: string;
 
     @Column()
