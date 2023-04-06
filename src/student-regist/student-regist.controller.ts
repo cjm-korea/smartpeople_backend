@@ -32,15 +32,24 @@ export class StudentRegistController {
 
     @Patch()
     updateStudent(
-        @Body() userName: string,
-        parentNumber: string
+        @Body()
+        {
+            userName,
+            parentNumber
+        }
     ): Promise<StudentDto> {
         return this.studentRegistService.updateStudent(userName, parentNumber);
     }
 
     @Delete()
-    deleteStudent(@Body() userName: string): Promise<void> {
-        return this.studentRegistService.deleteStudent(userName);
+    deleteStudent(
+        @Body()
+        {
+            userName,
+            myNumber
+        }
+    ): Promise<void> {
+        return this.studentRegistService.deleteStudent(userName, myNumber);
     }
 
 }

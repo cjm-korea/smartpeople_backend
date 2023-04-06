@@ -14,9 +14,8 @@ export class UserRepository extends Repository<User> {
     async createUser(authCredentialDto: AuthCreadentialDto): Promise<void> {
         const { userName, password, companyName, companyNumber, companyAddress, students } = authCredentialDto;
         const found = await this.findOne({ where: { companyName: companyName } });
-        console.log(found);
         if (found) {
-            this.logger.debug(`${userName} is confict!`);
+            this.logger.debug(`${userName} is confict!`, 'User');
             throw new ConflictException('같은 학원명이 존재합니다.');
         }
 

@@ -23,10 +23,10 @@ export class StudentRegistService {
     }
 
     async updateStudent(userName: string, parentNumber: string): Promise<StudentDto> {
-        return this.updateStudent(userName, parentNumber);
+        return this.studentRepository.updateStudent(userName, parentNumber);
     }
 
-    async deleteStudent(userName: string): Promise<void> {
-        return this.studentRepository.deleteStudent(userName);
+    async deleteStudent(userName: string, myNumber: string): Promise<void> {
+        return this.studentRepository.deleteStudent(userName, myNumber);
     }
 }
