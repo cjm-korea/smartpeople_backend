@@ -23,20 +23,15 @@ export class AuthController {
         this.logger.debug(`${userCredentialDto.userName} is signIn`, 'auth');
         const jwt = await this.authService.signIn(userCredentialDto);
 
-        res.setHeader('Authorization', 'Bearer' + jwt.accessToken);
-
-        res.cookie(`${userCredentialDto.userName}`, jwt.accessToken, {
-            httpOnly: false,
-            maxAge: 24 * 60 * 60 * 1000
-        })
-        .status(200)
-        .json({success: true});
+        res.setHeader('Authorization', jwt.accessToken)
+            .status(200)
+            .json({ success: true })
     }
 
-    @Post('/test')
+    @Get('/isLogin')
     @UseGuards(AuthGuard())
-    test(@GetUser() user: User) {
-        console.log(user);
+    test(@GetUser() user: User, @Res() res: Response) {
+        res.status(200).sendStatus(200);
     }
 
     @Get()
