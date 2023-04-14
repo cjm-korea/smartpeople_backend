@@ -34,10 +34,11 @@ export class AuthController {
         res.status(200).sendStatus(200);
     }
 
-    @Get()
-    next(@Body() body: object) {
-        this.logger.debug('some message is arrived');
-        this.logger.debug(`${body}`);
-        console.log(body);
+    @Get('/getUser')
+    @UseGuards(AuthGuard())
+    next(@GetUser() user: User, @Res() res: Response) {
+        this.logger.debug('getUser', 'auth');
+        console.log(user);
+        res.status(200).json(user);
     }
 }
