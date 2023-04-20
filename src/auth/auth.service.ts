@@ -9,7 +9,6 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
     constructor(
-        private dataSource: DataSource,
         private userRepository: UserRepository,
         private jwtService: JwtService
     ) { }
