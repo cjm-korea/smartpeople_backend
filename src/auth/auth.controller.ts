@@ -31,7 +31,8 @@ export class AuthController {
     @Get('/isLogin')
     @UseGuards(AuthGuard())
     test(@GetUser() user: User, @Res() res: Response) {
-        res.status(200).sendStatus(200);
+        // console.log(user);
+        res.status(200).json(user);
     }
 
     @Get()
