@@ -31,7 +31,7 @@ export class AuthController {
     @Get('/isLogin')
     @UseGuards(AuthGuard())
     test(@GetUser() user: User, @Res() res: Response) {
-        const newJson = {user, allow: true}
+        const newJson = {user, statusCode: 200}
         res.status(200).json(newJson);
     }
 

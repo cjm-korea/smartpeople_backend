@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { StudentRegistService } from './student-regist.service';
 import { StudentDto } from './dto/student.dto';
 import { GetUser } from 'src/auth/get-user.decorator';
@@ -6,18 +6,19 @@ import { User } from 'src/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('student')
-@UseGuards(AuthGuard())
 export class StudentRegistController {
     constructor(private studentRegistService: StudentRegistService) { }
-
+    private logger = new Logger();
     // Testing APIs need
 
-    @Get('/:userName')
-    getStudentByUserName(@Param('userName') userName: string): Promise<StudentDto> {
-        return this.studentRegistService.getStudentByUserName(userName);
-    }
+    // @Get('/:userName')
+    // @UseGuards(AuthGuard())
+    // getStudentByUserName(@Param('userName') userName: string): Promise<StudentDto> {
+    //     return this.studentRegistService.getStudentByUserName(userName);
+    // }
 
     @Post('/regist')
+    @UseGuards(AuthGuard())
     createStudent(
         @Body() studentDto: StudentDto,
         @GetUser() user: User
@@ -26,11 +27,13 @@ export class StudentRegistController {
     }
 
     @Get()
+    @UseGuards(AuthGuard())
     getAllStudents(): Promise<StudentDto[]> {
         return this.studentRegistService.getAllStudents();
     }
 
     @Patch()
+    @UseGuards(AuthGuard())
     updateStudent(
         @Body()
         {
@@ -42,6 +45,7 @@ export class StudentRegistController {
     }
 
     @Delete()
+    @UseGuards(AuthGuard())
     deleteStudent(
         @Body()
         {
@@ -50,6 +54,12 @@ export class StudentRegistController {
         }
     ): Promise<void> {
         return this.studentRegistService.deleteStudent(userName, myNumber);
+    }
+
+    @Get('/:companyName')
+    test(@Param() params: any): string {
+        this.logger.debug(`${params.companyName}`, 'student');
+        return `${params}`;
     }
 
 }
