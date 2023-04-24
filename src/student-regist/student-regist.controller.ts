@@ -17,6 +17,16 @@ export class StudentRegistController {
     //     return this.studentRegistService.getStudentByUserName(userName);
     // }
 
+    @Post('/goTo')
+    goTo(
+        @Body() {
+            companyName,
+            myNumber
+        }
+    ): Promise<void> {
+        return this.studentRegistService.goTo(companyName, myNumber)
+    }
+
     @Post('/regist')
     @UseGuards(AuthGuard())
     createStudent(

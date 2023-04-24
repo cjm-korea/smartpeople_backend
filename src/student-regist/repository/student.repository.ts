@@ -10,8 +10,15 @@ export class StudentRepository extends Repository<Student> {
     constructor(private dataSource: DataSource) {
         super(Student, dataSource.createEntityManager());
     }
-    // Make CRUD for Student
 
+    async goTo(companyName: string, myNumber: string): Promise<void> {
+        this.logger.debug(`${companyName}'s student ${myNumber} is goTo`)
+        const data = await this.getStudentBymyNumber(myNumber)
+        console.log(data);
+        // AWS SMS service
+    }
+
+    // Make CRUD for Student
     async getStudentByuserName(userName: string): Promise<StudentDto> {
         console.log(userName);
         const found = await this.findOne({ where: { userName: userName } });

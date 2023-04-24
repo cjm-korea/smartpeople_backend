@@ -10,6 +10,10 @@ export class StudentRegistService {
         private studentRepository: StudentRepository
     ) { }
 
+    goTo(companyName: string, myNumber: string): Promise<void> {
+        return this.studentRepository.goTo(companyName, myNumber);
+    }
+
     async getStudentByUserName(userName: string): Promise<StudentDto> {
         return this.studentRepository.getStudentByuserName(userName);
     }
