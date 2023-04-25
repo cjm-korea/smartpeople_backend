@@ -4,6 +4,7 @@ import { DataSource, Repository } from "typeorm";
 import { StudentDto } from "../dto/student.dto";
 import { User } from "src/entities/user.entity";
 import { SNS } from 'aws-sdk';
+import { CheckDto } from "../dto/check.dto";
 
 @Injectable()
 export class StudentRepository extends Repository<Student> {
@@ -16,12 +17,12 @@ export class StudentRepository extends Repository<Student> {
         super(Student, dataSource.createEntityManager());
     }
 
-    async goTo(companyName: string, myNumber: string): Promise<void> {
-        this.logger.debug(`${companyName}'s student ${myNumber} is goTo`)
-        const data = await this.getStudentBymyNumber(myNumber)
-        console.log(data);
+    async goTo(checkDto: CheckDto): Promise<void> {
+        this.logger.debug(`${checkDto.companyName}'s student ${checkDto.myNumber} is goTo`)
+        const data = await this.getStudentBymyNumber(checkDto.myNumber)
         // AWS SMS service
-        
+        this.logger.debug(data.parentNumber, `${data.userName}이 ${checkDto.companyName}에 등원했습니다.`, 'student Repository')
+        // this.sendSMS(data.parentNumber, `${data.userName}이 ${checkDto.companyName}에 등원했습니다.`)
     }
 
     async sendSMS(phoneNumber: string, message: string){

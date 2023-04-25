@@ -4,6 +4,7 @@ import { StudentDto } from './dto/student.dto';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { CheckDto } from './dto/check.dto';
 
 @Controller('student')
 export class StudentRegistController {
@@ -19,12 +20,10 @@ export class StudentRegistController {
 
     @Post('/goTo')
     goTo(
-        @Body() {
-            companyName,
-            myNumber
-        }
+        @Body() checkDto: CheckDto
     ): Promise<void> {
-        return this.studentRegistService.goTo(companyName, myNumber)
+        this.logger.debug(`${checkDto.companyName}: companyName`)
+        return this.studentRegistService.goTo(checkDto);
     }
 
     @Post('/regist')

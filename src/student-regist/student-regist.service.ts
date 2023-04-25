@@ -3,6 +3,7 @@ import { StudentRepository } from './repository/student.repository';
 import { StudentDto } from './dto/student.dto';
 import { User } from 'src/entities/user.entity';
 import { Student } from 'src/entities/student.entity';
+import { CheckDto } from './dto/check.dto';
 
 @Injectable()
 export class StudentRegistService {
@@ -10,8 +11,8 @@ export class StudentRegistService {
         private studentRepository: StudentRepository
     ) { }
 
-    goTo(companyName: string, myNumber: string): Promise<void> {
-        return this.studentRepository.goTo(companyName, myNumber);
+    goTo(checkDto: CheckDto): Promise<void> {
+        return this.studentRepository.goTo(checkDto);
     }
 
     async getStudentByUserName(userName: string): Promise<StudentDto> {
