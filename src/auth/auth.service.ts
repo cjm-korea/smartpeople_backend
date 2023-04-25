@@ -5,12 +5,13 @@ import { UserCredentialDto } from './dto/user.credential.dto';
 import * as bcrypt from 'bcryptjs';
 import { DataSource } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
+import * as AWS from 'aws-sdk';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userRepository: UserRepository,
-        private jwtService: JwtService
+        private jwtService: JwtService,
     ) { }
 
     async signUp(authCredentialDto: AuthCreadentialDto): Promise<void> {

@@ -3,10 +3,15 @@ import { Student } from "src/entities/student.entity";
 import { DataSource, Repository } from "typeorm";
 import { StudentDto } from "../dto/student.dto";
 import { User } from "src/entities/user.entity";
+import { SNS } from 'aws-sdk';
 
 @Injectable()
 export class StudentRepository extends Repository<Student> {
     private logger = new Logger();
+    private readonly sns = new SNS({
+        region: 'ap-northeast-1'
+    });
+    
     constructor(private dataSource: DataSource) {
         super(Student, dataSource.createEntityManager());
     }
@@ -16,6 +21,15 @@ export class StudentRepository extends Repository<Student> {
         const data = await this.getStudentBymyNumber(myNumber)
         console.log(data);
         // AWS SMS service
+        
+    }
+
+    async sendSMS(phoneNumber: string, message: string){
+        const msg = {
+            Message: message,
+            PhoneNumber: phoneNumber
+        }
+        return this.sns.publish(msg).promise()
     }
 
     // Make CRUD for Student

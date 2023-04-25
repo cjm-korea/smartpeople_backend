@@ -8,6 +8,13 @@ import { Student } from 'src/entities/student.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
+// import * as AWS from 'aws-sdk'
+
+// AWS.config.update({
+//   region: 'DOKYO',
+//   accessKeyId: 'ACCESS_KEY',
+//   secretAccessKey: 'SECRET_KEY'
+// })
 
 @Module({
   imports: [
@@ -24,7 +31,18 @@ import { PassportModule } from '@nestjs/passport';
     })
   ],
   exports: [TypeOrmModule, JwtStrategy, PassportModule],
-  providers: [AuthService, UserRepository, JwtStrategy],
+  providers: [
+    AuthService,
+    UserRepository,
+    JwtStrategy,
+    // {
+    //   provide: 'SNS_CLIENT',
+    //   useValue: new SNS({
+    //     region: 'DOKYO',
+    //     accessKeyId
+    //   })
+    // }
+  ],
   controllers: [AuthController]
 })
 export class AuthModule { }
