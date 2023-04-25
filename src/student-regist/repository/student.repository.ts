@@ -23,6 +23,8 @@ export class StudentRepository extends Repository<Student> {
         // Naver SENS service for sms sending
         if (data) {
             return this.sendSMS(data.parentNumber, `${data.userName}이 ${checkDto.companyName}에 등원했습니다.`)
+        }else{
+            new NotFoundException(`Can't find ${checkDto.myNumber} in Dataset`)
         }
     }
 
@@ -66,9 +68,9 @@ export class StudentRepository extends Repository<Student> {
         var newLine = "\n";				// new line
         var method = "GET";				// method
         var url = "/sms/v2";	        // url (include query string)
-        var timestamp = timeStamp;			// current timestamp (epoch)
-        var accessKey = accesssKey;			// access key id (from portal or Sub Account)
-        var secretKey = secretKey;			// secret key (from portal or Sub Account)
+        var timestamp = timeStamp;		// current timestamp (epoch)
+        var accessKey = accesssKey;		// access key id (from portal or Sub Account)
+        var secretKey = secretKey;		// secret key (from portal or Sub Account)
 
         var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
         hmac.update(method);
@@ -81,7 +83,7 @@ export class StudentRepository extends Repository<Student> {
 
         var hash = hmac.finalize();
 
-        const signatureKey = hash.toString(CryptoJS.enc.Base64)
+        const signatureKey: string = hash.toString(CryptoJS.enc.Base64)
 
         this.logger.debug(`${signatureKey}`, 'student Repository');
         return signatureKey;
@@ -89,7 +91,6 @@ export class StudentRepository extends Repository<Student> {
 
     // Make CRUD for Student
     async getStudentByuserName(userName: string): Promise<StudentDto> {
-        console.log(userName);
         const found = await this.findOne({ where: { userName: userName } });
         if (!found) {
             throw new NotFoundException(`Can't find in Dataset ${userName}`);
