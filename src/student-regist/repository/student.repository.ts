@@ -4,7 +4,7 @@ import { DataSource, Repository } from "typeorm";
 import { StudentDto } from "../dto/student.dto";
 import { User } from "src/entities/user.entity";
 import { CheckDto } from "../dto/check.dto";
-import CryptoJS from 'crypto-js'
+// import * as CryptoJS from 'crypto-js'
 import 'dotenv/config'
 
 
