@@ -3,9 +3,7 @@ import { UserRepository } from './repository/user.repository';
 import { AuthCreadentialDto } from './dto/auth.credential.dto';
 import { UserCredentialDto } from './dto/user.credential.dto';
 import * as bcrypt from 'bcryptjs';
-import { DataSource } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import * as AWS from 'aws-sdk';
 
 @Injectable()
 export class AuthService {
